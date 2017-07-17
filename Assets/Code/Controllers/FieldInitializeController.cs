@@ -18,10 +18,11 @@ public class FieldInitializeController : MonoBehaviour {
 
             for (int j = 0; j < 3; j++) {
 
-                FieldCell field = Instantiate(_fieldCells);
+                FieldCell field = Instantiate(_fieldCells, this.field.transform);
                 var curPos = field.transform.position;
                 curPos.x = startX + j * 2.575f;
                 curPos.y = startY - i * 2.575f;
+                curPos.z = 9;
                 if (field == null) {
                     Debug.Log( i);
                 }
