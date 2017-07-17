@@ -23,6 +23,7 @@ public class FieldInitializeController : MonoBehaviour {
                 curPos.x = startX + j * 2.575f;
                 curPos.y = startY - i * 2.575f;
                 curPos.z = 9; //Field has z = 9
+
                 if (field == null) {
                     Debug.Log( i);
                 }
