@@ -13,9 +13,6 @@ public class FieldInitializeController : MonoBehaviour {
 
         for (int i = 0; i < 3; i++) {
 
-
-
-
             for (int j = 0; j < 3; j++) {
 
                 FieldCell fieldCell = Instantiate(_fieldCells, this.field.transform);
@@ -29,8 +26,8 @@ public class FieldInitializeController : MonoBehaviour {
                 fieldCell.PlaceY = j;
     
             }
-
         }
 
+        TurnAndWinController.InitiateArray();
     }
 }
