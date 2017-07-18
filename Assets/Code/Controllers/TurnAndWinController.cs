@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
 
 
 public class TurnAndWinController {
 
-    private static int[,] currentFieldState = new int[3, 3];
+    private static int[,] _currentFieldState = new int[3, 3];
     private static Player _currentPlayer = Player.First;
     private static FieldCell _currentCell;
     private enum Player {   
@@ -18,7 +20,7 @@ public class TurnAndWinController {
 
             for (int j = 0; j < 3; j++) {
 
-                currentFieldState[i, j] = 0;
+                _currentFieldState[i, j] = 0;
 
             }
         }
@@ -34,10 +36,12 @@ public class TurnAndWinController {
         _currentCell = cell;
         FillIndexArray();
         DrawSymbolOnCell();
+        CheckVictoryConditions();
 
     }
 
-    
+   
+
 
     private static void FillIndexArray() {
 
@@ -58,5 +62,52 @@ public class TurnAndWinController {
         }
     }
 
+    private static void CheckVictoryConditions() {
 
+        int checkValue;
+
+        if (_currentPlayer == Player.First)
+            checkValue = 1;
+        else
+            checkValue = 2;
+        //horizontal
+        for (int i = 0, j=0 ; i < 3; i++) {
+            if (_currentFieldState[i, j] == checkValue &&
+                _currentFieldState[i, j + 1] == checkValue &&
+                _currentFieldState[i, j + 2] == checkValue) 
+            PlayerWonAnnouncement();
+
+            if(_currentFieldState[j,j] == checkValue                        ///   * 0 0
+                && _currentFieldState[j+1, j+1] == checkValue               ///   0 * 0
+                && _currentFieldState[j+2,j+2] == checkValue)               ///   0 0 *
+                PlayerWonAnnouncement();
+
+            if (_currentFieldState[j, 2-j] == checkValue                ///    0 0 *
+                && _currentFieldState[j,j] == checkValue                ///    0 * 0
+                && _currentFieldState[2-j, j] == checkValue)            ///    * 0 0
+                PlayerWonAnnouncement();
+
+            if (_currentFieldState[j, i] == checkValue &&
+                _currentFieldState[j + 1, i] == checkValue &&
+                _currentFieldState[j + 2, i] == checkValue)
+                PlayerWonAnnouncement();
+
+
+        }
+        
+
+           
+            
+
+        
+
+
+
+    }
+
+    private  static void PlayerWonAnnouncement() {
+        if (_currentPlayer == Player.First)
+            Debug.Log("Player 1 win!!!");
+        else Debug.Log("Player 2 win !!!");
+    }
 }
