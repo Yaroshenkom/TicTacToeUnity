@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,19 +38,19 @@ public class TurnAndWinController {
         FillIndexArray();
         DrawSymbolOnCell();
         CheckVictoryConditions();
+        SwitchPlayer();
 
     }
 
-   
-
+    
 
     private static void FillIndexArray() {
 
         if (_currentPlayer == Player.First) {
-            currentFieldState[_currentCell.PlaceX, _currentCell.PlaceY] = 1;
+            _currentFieldState[_currentCell.PlaceX, _currentCell.PlaceY] = 1;
         }
         else {
-            currentFieldState[_currentCell.PlaceX, _currentCell.PlaceY] = 2;
+            _currentFieldState[_currentCell.PlaceX, _currentCell.PlaceY] = 2;
         }
     }
 
@@ -74,34 +75,30 @@ public class TurnAndWinController {
         for (int i = 0, j=0 ; i < 3; i++) {
             if (_currentFieldState[i, j] == checkValue &&
                 _currentFieldState[i, j + 1] == checkValue &&
-                _currentFieldState[i, j + 2] == checkValue) 
-            PlayerWonAnnouncement();
+                _currentFieldState[i, j + 2] == checkValue) {
+                    PlayerWonAnnouncement();
+            }
 
             if(_currentFieldState[j,j] == checkValue                        ///   * 0 0
                 && _currentFieldState[j+1, j+1] == checkValue               ///   0 * 0
-                && _currentFieldState[j+2,j+2] == checkValue)               ///   0 0 *
-                PlayerWonAnnouncement();
+                && _currentFieldState[j+2,j+2] == checkValue){              ///   0 0 *
+                    PlayerWonAnnouncement();
+                }
 
             if (_currentFieldState[j, 2-j] == checkValue                ///    0 0 *
                 && _currentFieldState[j,j] == checkValue                ///    0 * 0
-                && _currentFieldState[2-j, j] == checkValue)            ///    * 0 0
-                PlayerWonAnnouncement();
+                && _currentFieldState[2-j, j] == checkValue){           ///    * 0 0
+                    PlayerWonAnnouncement();
+                }
 
             if (_currentFieldState[j, i] == checkValue &&
                 _currentFieldState[j + 1, i] == checkValue &&
-                _currentFieldState[j + 2, i] == checkValue)
-                PlayerWonAnnouncement();
+                _currentFieldState[j + 2, i] == checkValue) {
+                     PlayerWonAnnouncement();
+            }
 
 
         }
-        
-
-           
-            
-
-        
-
-
 
     }
 
@@ -109,5 +106,12 @@ public class TurnAndWinController {
         if (_currentPlayer == Player.First)
             Debug.Log("Player 1 win!!!");
         else Debug.Log("Player 2 win !!!");
+    }
+
+    private static void SwitchPlayer() {
+        if (_currentPlayer == Player.First)
+            _currentPlayer = Player.Second;
+        else
+            _currentPlayer = Player.First;
     }
 }
