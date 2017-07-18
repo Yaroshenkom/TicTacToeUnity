@@ -24,6 +24,7 @@ public class FieldInitializeController : MonoBehaviour {
                 fieldCell.transform.position = curPos;
                 fieldCell.PlaceX = i;
                 fieldCell.PlaceY = j;
+                
     
             }
         }

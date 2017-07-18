@@ -10,6 +10,7 @@ public class TurnAndWinController {
     private static int[,] _currentFieldState = new int[3, 3];
     private static Player _currentPlayer = Player.First;
     private static FieldCell _currentCell;
+    private static int _turnCount = 0;
     private enum Player {   
         First = 1,
         Second
@@ -37,6 +38,9 @@ public class TurnAndWinController {
         _currentCell = cell;
         FillIndexArray();
         DrawSymbolOnCell();
+
+        _turnCount++;
+
         CheckVictoryConditions();
         SwitchPlayer();
 
@@ -96,9 +100,12 @@ public class TurnAndWinController {
                 _currentFieldState[j + 2, i] == checkValue) {
                      PlayerWonAnnouncement();
             }
-
-
         }
+
+        if (_turnCount == 9) {
+            Debug.Log("Draw");
+        }
+
 
     }
 
