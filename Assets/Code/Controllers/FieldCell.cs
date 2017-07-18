@@ -9,7 +9,7 @@ public class FieldCell : MonoBehaviour {
 
 
     private int _placeX, _placeY;
-    private bool _isUsed = false;
+    private bool _isUsed;
 
 
     public int PlaceX {
@@ -49,7 +49,7 @@ public class FieldCell : MonoBehaviour {
     public void SetCross() {
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spriteRenderer.sprite = _cross;
-        _isUsed = false;
+        _isUsed = true;
 
 
     }
