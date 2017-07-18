@@ -3,20 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public class TurnAndWinController {
+public class TurnAndWinController : MonoBehaviour {
 
     private static int[,] _currentFieldState = new int[3, 3];
     private static Player _currentPlayer = Player.First;
     private static FieldCell _currentCell;
-    private static int _turnCount = 0;
+    private static int _turnCount;
+    private static GUIController _guiController;
+
+
+
     private enum Player {   
         First = 1,
         Second
     }
 
-    public static void InitiateArray() {
+
+    public static void Initiate() {
+        _turnCount = 0;
+        InitiateArray();
+        _guiController = GameObject.Find("GUI Controller").GetComponent<GUIController>();
+    }
+
+
+    private static void InitiateArray() {
 
         for (int i = 0; i < 3; i++) {
 
@@ -35,14 +45,18 @@ public class TurnAndWinController {
     /// </summary>
     /// <param name="cell"></param>
     public static void SetFieldAndDraw(FieldCell cell) {
-        _currentCell = cell;
-        FillIndexArray();
-        DrawSymbolOnCell();
 
-        _turnCount++;
+        if (ActiveGameController.IsGameActive) {
+            _currentCell = cell;
+            FillIndexArray();
+            DrawSymbolOnCell();
 
-        CheckVictoryConditions();
-        SwitchPlayer();
+            _turnCount++;
+
+            CheckVictoryConditions();
+            SwitchPlayer();
+        }
+        
 
     }
 
@@ -81,38 +95,47 @@ public class TurnAndWinController {
                 _currentFieldState[i, j + 1] == checkValue &&
                 _currentFieldState[i, j + 2] == checkValue) {
                     PlayerWonAnnouncement();
+                    return;
             }
 
             if(_currentFieldState[j,j] == checkValue                        ///   * 0 0
                 && _currentFieldState[j+1, j+1] == checkValue               ///   0 * 0
                 && _currentFieldState[j+2,j+2] == checkValue){              ///   0 0 *
                     PlayerWonAnnouncement();
+                    return;
                 }
 
             if (_currentFieldState[j, 2-j] == checkValue                ///    0 0 *
                 && _currentFieldState[j,j] == checkValue                ///    0 * 0
                 && _currentFieldState[2-j, j] == checkValue){           ///    * 0 0
                     PlayerWonAnnouncement();
+                    return;
                 }
 
             if (_currentFieldState[j, i] == checkValue &&
                 _currentFieldState[j + 1, i] == checkValue &&
                 _currentFieldState[j + 2, i] == checkValue) {
                      PlayerWonAnnouncement();
+                     return;
             }
         }
 
         if (_turnCount == 9) {
-            Debug.Log("Draw");
+            ActiveGameController.SomeoneWonOrDraw();
+            _guiController.SetTextPanel("Draw. Do you want to restart?");
         }
 
 
     }
 
     private  static void PlayerWonAnnouncement() {
-        if (_currentPlayer == Player.First)
-            Debug.Log("Player 1 win!!!");
-        else Debug.Log("Player 2 win !!!");
+        ActiveGameController.SomeoneWonOrDraw();
+
+        if (_currentPlayer == Player.First) 
+            _guiController.SetTextPanel("Player 1 won!!! Do you want to restart?");
+        else _guiController.SetTextPanel("Player 2 won!!! Do you want to restart?");
+
+        
     }
 
     private static void SwitchPlayer() {
@@ -121,4 +144,8 @@ public class TurnAndWinController {
         else
             _currentPlayer = Player.First;
     }
+
+    
+
+
 }

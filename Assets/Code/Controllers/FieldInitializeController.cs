@@ -29,6 +29,6 @@ public class FieldInitializeController : MonoBehaviour {
             }
         }
 
-        TurnAndWinController.InitiateArray();
+        TurnAndWinController.Initiate();
     }
 }
