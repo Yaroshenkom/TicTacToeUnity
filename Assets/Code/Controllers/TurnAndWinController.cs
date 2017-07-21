@@ -6,7 +6,7 @@ using UnityEngine;
 public class TurnAndWinController : MonoBehaviour {
 
     private static int[,] _currentFieldState = new int[3, 3];
-    private static Player _currentPlayer = Player.First;
+    private static Player _currentPlayer;
     private static FieldCell _currentCell;
     private static int _turnCount;
     private static GUIController _guiController;
@@ -23,6 +23,7 @@ public class TurnAndWinController : MonoBehaviour {
 
     public static void Initiate() {
         _turnCount = 0;
+        _currentPlayer = Player.First;
         InitiateArray();
         _guiController = GameObject.Find("GUI Controller").GetComponent<GUIController>();
     }
@@ -121,7 +122,7 @@ public class TurnAndWinController : MonoBehaviour {
 
             if (_currentFieldState[0, 2] == checkValue                     ///    0 0 *
                 && _currentFieldState[1,1] == checkValue                   ///    0 * 0
-                && _currentFieldState[2, 2] == checkValue){                ///    * 0 0
+                && _currentFieldState[2,0] == checkValue){                ///    * 0 0
                     PlayerWonAnnouncement();
                     return;
                 }
