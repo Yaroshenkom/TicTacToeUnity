@@ -33,6 +33,11 @@ public class FieldCell : MonoBehaviour {
     public int index; //TODO private only with get
 
 
+    //CHOOSE  ONLY ONE
+    private void Awake() {
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+    //CHOOSE  ONLY ONE
     private void Start() {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
