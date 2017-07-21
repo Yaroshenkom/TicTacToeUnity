@@ -89,41 +89,48 @@ public class TurnAndWinController : MonoBehaviour {
             checkValue = 1;
         else
             checkValue = 2;
-        //horizontal
-        for (int i = 0, j=0 ; i < 3; i++) {
-            if (_currentFieldState[i, j] == checkValue &&
-                _currentFieldState[i, j + 1] == checkValue &&
-                _currentFieldState[i, j + 2] == checkValue) {
+
+        #region CheckConditions
+
+        
+       
+        for (int i = 0 ; i < 3; i++) {
+            //horizontal
+            if (_currentFieldState[i, 0] == checkValue &&
+                _currentFieldState[i, 1] == checkValue &&
+                _currentFieldState[i, 2] == checkValue) {
                     PlayerWonAnnouncement();
                     return;
             }
-
-            if(_currentFieldState[j,j] == checkValue                        ///   * 0 0
-                && _currentFieldState[j+1, j+1] == checkValue               ///   0 * 0
-                && _currentFieldState[j+2,j+2] == checkValue){              ///   0 0 *
-                    PlayerWonAnnouncement();
-                    return;
-                }
-
-            if (_currentFieldState[j, 2-j] == checkValue                ///    0 0 *
-                && _currentFieldState[j,j] == checkValue                ///    0 * 0
-                && _currentFieldState[2-j, j] == checkValue){           ///    * 0 0
-                    PlayerWonAnnouncement();
-                    return;
-                }
-
-            if (_currentFieldState[j, i] == checkValue &&
-                _currentFieldState[j + 1, i] == checkValue &&
-                _currentFieldState[j + 2, i] == checkValue) {
+            //vertical
+            if (_currentFieldState[0, i] == checkValue &&
+                _currentFieldState[1, i] == checkValue &&
+                _currentFieldState[2, i] == checkValue) {
                      PlayerWonAnnouncement();
                      return;
-            }
+            }  
         }
+
+            if(_currentFieldState[0,0] == checkValue                        ///   * 0 0
+                && _currentFieldState[1, 1] == checkValue                   ///   0 * 0
+                && _currentFieldState[2,2] == checkValue){                  ///   0 0 *
+                    PlayerWonAnnouncement();
+                    return;
+                }
+
+            if (_currentFieldState[0, 2] == checkValue                     ///    0 0 *
+                && _currentFieldState[1,1] == checkValue                   ///    0 * 0
+                && _currentFieldState[2, 2] == checkValue){                ///    * 0 0
+                    PlayerWonAnnouncement();
+                    return;
+                }
 
         if (_turnCount == 9) {
             ActiveGameController.SomeoneWonOrDraw();
             _guiController.SetTextPanel("Draw. Do you want to restart?");
         }
+        #endregion
+
 
 
     }
