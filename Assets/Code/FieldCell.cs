@@ -44,7 +44,7 @@ public class FieldCell : MonoBehaviour {
 
     private void OnMouseEnter() {
         if (_isUsed) return;
-        if (TurnAndWinController.CurrentPlayer == TurnAndWinController.Player.First) {
+        if (TurnAndWinController.CurrentSymbol == TurnAndWinController.Symbol.Cross) {
             SetGhostCross();
         }
         else {
