@@ -6,24 +6,24 @@ using UnityEngine;
 public class TurnAndWinController : MonoBehaviour {
 
     private static int[,] _currentFieldState = new int[3, 3];
-    private static Player _currentPlayer;
+    private static Symbol _currentSymbol;
     private static FieldCell _currentCell;
     private static int _turnCount;
     private static GUIController _guiController;
 
-    public static Player CurrentPlayer {
-        get { return _currentPlayer; }
+    public static Symbol CurrentSymbol {
+        get { return _currentSymbol; }
     }
 
-    public enum Player {   
-        First = 1,
-        Second
+    public enum Symbol {   
+        Cross = 1,
+        Circle
     }
 
 
     public static void Initiate() {
         _turnCount = 0;
-        _currentPlayer = Player.First;
+        _currentSymbol = Symbol.Cross;
         InitiateArray();
         _guiController = GameObject.Find("GUI Controller").GetComponent<GUIController>();
     }
@@ -66,7 +66,7 @@ public class TurnAndWinController : MonoBehaviour {
 
     private static void FillIndexArray() {
 
-        if (_currentPlayer == Player.First) {
+        if (_currentSymbol == Symbol.Cross) {
             _currentFieldState[_currentCell.PlaceX, _currentCell.PlaceY] = 1;
         }
         else {
@@ -75,7 +75,7 @@ public class TurnAndWinController : MonoBehaviour {
     }
 
     private static void DrawSymbolOnCell() {
-        if (_currentPlayer == Player.First) {
+        if (_currentSymbol == Symbol.Cross) {
             _currentCell.SetCross();
         }
         else {
@@ -87,7 +87,7 @@ public class TurnAndWinController : MonoBehaviour {
 
         int checkValue;
 
-        if (_currentPlayer == Player.First)
+        if (_currentSymbol == Symbol.Cross)
             checkValue = 1;
         else
             checkValue = 2;
@@ -140,7 +140,7 @@ public class TurnAndWinController : MonoBehaviour {
     private  static void PlayerWonAnnouncement() {
         ActiveGameController.SomeoneWonOrDraw();
 
-        if (_currentPlayer == Player.First) 
+        if (_currentSymbol == Symbol.Cross) 
             _guiController.SetTextPanel("Player 1 won!!! Do you want to restart?");
         else _guiController.SetTextPanel("Player 2 won!!! Do you want to restart?");
 
@@ -148,10 +148,10 @@ public class TurnAndWinController : MonoBehaviour {
     }
 
     private static void SwitchPlayer() {
-        if (_currentPlayer == Player.First)
-            _currentPlayer = Player.Second;
+        if (_currentSymbol == Symbol.Cross)
+            _currentSymbol = Symbol.Circle;
         else
-            _currentPlayer = Player.First;
+            _currentSymbol = Symbol.Cross;
     }
 
     
