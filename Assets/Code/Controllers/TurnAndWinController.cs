@@ -11,9 +11,11 @@ public class TurnAndWinController : MonoBehaviour {
     private static int _turnCount;
     private static GUIController _guiController;
 
+    public static Player CurrentPlayer {
+        get { return _currentPlayer; }
+    }
 
-
-    private enum Player {   
+    public enum Player {   
         First = 1,
         Second
     }
@@ -46,17 +48,16 @@ public class TurnAndWinController : MonoBehaviour {
     /// <param name="cell"></param>
     public static void SetFieldAndDraw(FieldCell cell) {
 
-        if (ActiveGameController.IsGameActive) {
-            _currentCell = cell;
-            FillIndexArray();
-            DrawSymbolOnCell();
+        if (!ActiveGameController.IsGameActive) return;
 
-            _turnCount++;
+        _currentCell = cell;
+        FillIndexArray();
+        DrawSymbolOnCell();
 
-            CheckVictoryConditions();
-            SwitchPlayer();
-        }
-        
+        _turnCount++;
+
+        CheckVictoryConditions();
+        SwitchPlayer();
 
     }
 

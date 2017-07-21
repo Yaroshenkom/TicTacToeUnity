@@ -7,7 +7,7 @@ public class FieldCell : MonoBehaviour {
     [SerializeField] private Sprite _circle;
 
 
-
+    private SpriteRenderer _spriteRenderer;
     private int _placeX, _placeY;
     private bool _isUsed;
 
@@ -32,26 +32,64 @@ public class FieldCell : MonoBehaviour {
     public int currentState = 0; //TODO enum 
     public int index; //TODO private only with get
 
-    private void OnMouseDown() {
-        if (!_isUsed) {
-            TurnAndWinController.SetFieldAndDraw(this);
-        }
 
+    private void Start() {
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void OnMouseEnter() {
+        if (_isUsed) return;
+        if (TurnAndWinController.CurrentPlayer == TurnAndWinController.Player.First) {
+            SetGhostCross();
+        }
+        else {
+            SetGhostCircle();
+        }
+    }
+
+    private void OnMouseExit() {
+        CleanCurrentSprite();
+    }
+
+
+    private void OnMouseDown() {
+        if (_isUsed) return;
+        TurnAndWinController.SetFieldAndDraw(this);
     }
 
     public void SetCircle() {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.sprite = _circle;
+        _spriteRenderer.sprite = _circle;
         _isUsed = true;
-
+        var curColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, 1f);
     }
 
     public void SetCross() {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        spriteRenderer.sprite = _cross;
+        _spriteRenderer.sprite = _cross;
         _isUsed = true;
-
+        var curColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, 1f);
 
     }
+
+
+    private void SetGhostCircle() {
+        _spriteRenderer.sprite = _circle;
+        var curColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, 0.3f);
+    }
+
+    private void SetGhostCross() {
+        _spriteRenderer.sprite = _cross;
+        var curColor = _spriteRenderer.color;
+        _spriteRenderer.color = new Color(curColor.r, curColor.g, curColor.b, 0.3f);
+
+    }
+
+    public void CleanCurrentSprite() {
+        if (_isUsed) return;
+        _spriteRenderer.sprite = null;
+    }
+
 }
 
