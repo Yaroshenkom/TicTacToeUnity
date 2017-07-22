@@ -57,9 +57,12 @@ public class FieldCell : MonoBehaviour {
     }
 
 
-    private void OnMouseDown() {
+    private void OnMouseOver() {
         if (_isUsed) return;
-        TurnAndWinController.SetFieldAndDraw(this);
+        if(Input.GetMouseButtonDown(0))
+            TurnAndWinController.SetFieldAndDraw(this, TurnController.Player.First);
+        if (Input.GetMouseButtonDown(1))
+            TurnAndWinController.SetFieldAndDraw(this, TurnController.Player.Second);
     }
 
     public void SetCircle() {

@@ -26,6 +26,7 @@ public class TurnAndWinController : MonoBehaviour {
         _currentSymbol = Symbol.Cross;
         InitiateArray();
         _guiController = GameObject.Find("GUI Controller").GetComponent<GUIController>();
+        TurnController.CurrentPlayer = TurnController.Player.First;
     }
 
 
@@ -47,19 +48,20 @@ public class TurnAndWinController : MonoBehaviour {
     /// 3.Check victory conditions
     /// </summary>
     /// <param name="cell"></param>
-    public static void SetFieldAndDraw(FieldCell cell) {
+    public static void SetFieldAndDraw(FieldCell cell, TurnController.Player player) {
 
         if (!ActiveGameController.IsGameActive) return;
+        if (player == TurnController.CurrentPlayer) {
+            _currentCell = cell;
+            FillIndexArray();
+            DrawSymbolOnCell();
 
-        _currentCell = cell;
-        FillIndexArray();
-        DrawSymbolOnCell();
+            _turnCount++;
 
-        _turnCount++;
-
-        CheckVictoryConditions();
-        SwitchPlayer();
-
+            CheckVictoryConditions();
+            SwitchSymbol();
+            TurnController.SwitchPlayer();
+        }
     }
 
     
@@ -147,7 +149,7 @@ public class TurnAndWinController : MonoBehaviour {
         
     }
 
-    private static void SwitchPlayer() {
+    private static void SwitchSymbol() {
         if (_currentSymbol == Symbol.Cross)
             _currentSymbol = Symbol.Circle;
         else
