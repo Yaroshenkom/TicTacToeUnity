@@ -95,5 +95,4 @@ public class FieldCell : MonoBehaviour {
         if (_isUsed) return;
         _spriteRenderer.sprite = null;
     }
-
 }
